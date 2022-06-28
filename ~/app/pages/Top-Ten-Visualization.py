@@ -13,7 +13,7 @@ import numpy as np
 
 
 # setting image
-image = Image.open('image.png')
+image = Image.open('image1.png')
 
 
 col1, col2 = st.columns(2)

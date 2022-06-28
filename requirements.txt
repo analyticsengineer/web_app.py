@@ -1,5 +1,5 @@
 Streamlit==1.10.0
-PIL==1.1.2
+pil==1.1.2
 pillow==9.1.1
 pandas==1.4.3
 numpy==1.23.0

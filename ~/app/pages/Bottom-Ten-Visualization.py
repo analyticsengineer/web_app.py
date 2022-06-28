@@ -1,0 +1,96 @@
+# Necessary Libraries
+import time
+from PIL import Image
+import streamlit as st
+import pandas as pd
+from datetime import date
+from openpyxl import load_workbook
+import requests
+from pandas_profiling import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
+import plotly.express as px
+import numpy as np
+
+
+# setting image
+image = Image.open('image2.png')
+
+
+col1, col2 = st.columns(2)
+
+col1.header("Simple Data Analysis Web App")
+title_1 =  '<p style="font-family:sans-serif; color:Grey;">Visualize the BOTTOM TEN Insights fom your dataset</p>'
+col1.markdown(title_1, unsafe_allow_html=True)
+col2.image(image)
+
+# Setting menu visibility
+st.markdown(""" <style>
+#Mainmenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style>""", unsafe_allow_html=True)
+
+df_file = st.file_uploader("Upload your file: ", type=['csv', 'xlsx', 'pickle'])
+
+# Open Csv File
+try:
+  df_file = pd.read_csv(df_file)
+  st.markdown("Your Data Record: ")
+  st.dataframe(df_file)
+        
+except:
+  csv = '<p style="font-family: Quicksand_medium; color:#c28080; font-size: 20px;">Please Load A CSV, EXCEL Or ' \
+           'PICKLE File To Begin</p>'
+  st.markdown(csv, unsafe_allow_html=True)
+
+# Open Excel File
+try:
+  df_file = pd.read_excel(df_file, engine='openpyxl')
+  st.markdown("Your Data Record: ")
+  st.dataframe(df_file)     
+except:
+  pass
+
+# Read Pickle File
+try:
+  df_file = pd.read_pickle(df_file)
+  st.markdown("Your Data Record: ")
+  AgGrid(df_file, editable=True)
+except:
+  pass
+
+try:
+  cols3 = st.selectbox('SELECT VALUE:',
+                       options=df_file.select_dtypes(include=['int', 'float', 'datetime'], exclude='object').columns)
+  cols4 = st.selectbox('SELECT LABEL:',
+                        options=df_file.select_dtypes(include='object', exclude=['int', 'float']).columns)
+  df_file = df_file.groupby(df_file[cols4])[cols3].sum().nsmallest(n=10).reset_index()
+except:
+  pass
+
+option3_header = '<p style="font-family: Quicksand_medium; color:#ffffff; font-size: 20px;">Choose Your Graph</p>'
+st.markdown(option3_header, unsafe_allow_html=True)
+
+type = st.radio("Pick one", ['Color', 'No Color'])
+if type == 'Color':
+        plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
+        if plotType_color == 'Line':
+            fig = px.line(df_file, x=df_file[cols4], y=df_file[cols3])
+            st.plotly_chart(fig, use_container_width=True)
+        if plotType_color == 'Pie':
+            fig = px.pie(names=df_file[cols4], values=df_file[cols3])
+            st.plotly_chart(fig, use_container_width=True)
+        if plotType_color == 'Bar':
+            fig = px.bar(df_file, x=df_file[cols4], y=df_file[cols3], color=df_file[cols4])
+            st.plotly_chart(fig, use_container_width=True)
+            
+if type == 'No Color':
+        plotType_nocolor = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
+        if plotType_nocolor == 'Line':
+            fig = px.line(df_file, x=df_file[cols4], y=df_file[cols3])
+            st.plotly_chart(fig, use_container_width=True)
+        if plotType_nocolor == 'Pie':
+            fig = px.pie(names=df_file[cols4], values=df_file[cols3])
+            st.plotly_chart(fig, use_container_width=True)
+        if plotType_nocolor == 'Bar':
+            fig = px.bar(df_file, x=df_file[cols4], y=df_file[cols3])
+            st.plotly_chart(fig, use_container_width=True)

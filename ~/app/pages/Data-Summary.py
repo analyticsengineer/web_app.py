@@ -7,7 +7,7 @@ from openpyxl import load_workbook
 # setting image
 image = Image.open('image4.png')
 
-
+# setting header 
 col1, col2 = st.columns(2)
 
 col1.header("Simple Data Analysis Web App")
@@ -21,6 +21,7 @@ st.markdown(""" <style>
 footer {visibility: hidden;}
 </style>""", unsafe_allow_html=True)
 
+# uploading file 
 df_file = st.file_uploader("Upload your file: ", type=['csv', 'xlsx', 'pickle'])
 
 # Open Csv File

@@ -15,7 +15,7 @@ import numpy as np
 # setting image
 image = Image.open('image1.png')
 
-
+# setting header 
 col1, col2 = st.columns(2)
 
 col1.header("Simple Data Analysis Web App")
@@ -25,10 +25,10 @@ col2.image(image)
 
 # Setting menu visibility
 st.markdown(""" <style>
-#Mainmenu {visibility: hidden;}
-footer {visibility: hidden;}
+#Mainmenu {visibility: hidden;}footer {visibility: hidden;}
 </style>""", unsafe_allow_html=True)
 
+# uploading file
 df_file = st.file_uploader("Upload your file: ", type=['csv', 'xlsx', 'pickle'])
 
 # Open Csv File

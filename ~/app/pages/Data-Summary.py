@@ -11,7 +11,7 @@ image = Image.open('image4.png')
 col1, col2 = st.columns(2)
 
 col1.header("Simple Data Analysis Web App")
-title_1 =  '<p style="font-family:sans-serif; color:Grey;">Visualize the TOP TEN Insights fom your dataset</p>'
+title_1 =  '<p style="font-family:sans-serif; color:Grey;">View Your Data Summary</p>'
 col1.markdown(title_1, unsafe_allow_html=True)
 col2.image(image)
 

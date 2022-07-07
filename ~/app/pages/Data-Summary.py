@@ -54,4 +54,5 @@ except:
 
 data_summary = st.button("Data Summary")
 if data_summary:
-  st_profile_report(df_file)
+  summary = df_file.profile_report()
+  st_profile_report(summary)

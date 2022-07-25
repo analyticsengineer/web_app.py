@@ -72,25 +72,25 @@ st.markdown(option3_header, unsafe_allow_html=True)
 
 type = st.radio("Pick one", ['Color', 'No Color'])
 if type == 'Color':
-        plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
-        if plotType_color == 'Line':
+        tab1, tab2, tab3 = st.tabs(["Line", "Bar", "pie"])
+        with tab1:
             fig = px.line(df_file, x=df_file[cols2], y=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        if plotType_color == 'Pie':
+        with tab2:
             fig = px.pie(names=df_file[cols2], values=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        if plotType_color == 'Bar':
+        with tab3:
             fig = px.bar(df_file, x=df_file[cols2], y=df_file[cols], color=df_file[cols2])
             st.plotly_chart(fig, use_container_width=True)
             
 if type == 'No Color':
-        plotType_nocolor = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
-        if plotType_nocolor == 'Line':
+        tab4, tab5, tab6 = st.tabs(["Line", "Bar", "pie"])
+        with tab4:
             fig = px.line(df_file, x=df_file[cols2], y=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        if plotType_nocolor == 'Pie':
+        with tab5:
             fig = px.pie(names=df_file[cols2], values=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        if plotType_nocolor == 'Bar':
+        with tab6:
             fig = px.bar(df_file, x=df_file[cols2], y=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)

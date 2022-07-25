@@ -70,7 +70,7 @@ except:
 option3_header = '<p style="font-family: Quicksand_medium; color:#ffffff; font-size: 20px;">Choose Your Graph</p>'
 st.markdown(option3_header, unsafe_allow_html=True)
 
-tab1, tab2 = st.tabs(["Color", "No Color])
+tab1, tab2 = st.tabs(["Color", "No Color"])
 with tab1:
         plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
         if plotType_color == 'Line':

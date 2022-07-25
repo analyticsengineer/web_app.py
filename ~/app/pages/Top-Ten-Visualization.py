@@ -61,7 +61,7 @@ except:
 try:
   cols = st.selectbox('SELECT VALUE:',
                        options=df_file.select_dtypes(include=['int', 'float', 'datetime'], exclude='object').columns)
-  cols2 = st.selectbox('SELECT LABEL:',
+  cols2 = st.multiselect('SELECT LABEL:',
                         options=df_file.select_dtypes(include='object', exclude=['int', 'float']).columns)
   df_file = df_file.groupby(df_file[cols2])[cols].sum().nlargest(n=10).reset_index()
 except:
@@ -72,25 +72,25 @@ st.markdown(option3_header, unsafe_allow_html=True)
 
 type = st.radio("Pick one", ['Color', 'No Color'])
 if type == 'Color':
-        tab1, tab2, tab3 = st.tabs(["Line", "Bar", "pie"])
-        with tab1:
+        plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
+        if plotType_color == 'Line':
             fig = px.line(df_file, x=df_file[cols2], y=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        with tab2:
+        if plotType_color == 'Pie':
             fig = px.pie(names=df_file[cols2], values=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        with tab3:
+        if plotType_color == 'Bar':
             fig = px.bar(df_file, x=df_file[cols2], y=df_file[cols], color=df_file[cols2])
             st.plotly_chart(fig, use_container_width=True)
             
 if type == 'No Color':
-        tab4, tab5, tab6 = st.tabs(["Line", "Bar", "pie"])
-        with tab4:
+        plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
+        if plotType_color == 'Line':
             fig = px.line(df_file, x=df_file[cols2], y=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        with tab5:
+        if plotType_color == 'Pie':
             fig = px.pie(names=df_file[cols2], values=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)
-        with tab6:
+        if plotType_color == 'Bar':
             fig = px.bar(df_file, x=df_file[cols2], y=df_file[cols])
             st.plotly_chart(fig, use_container_width=True)

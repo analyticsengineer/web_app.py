@@ -70,8 +70,8 @@ except:
 option3_header = '<p style="font-family: Quicksand_medium; color:#ffffff; font-size: 20px;">Choose Your Graph</p>'
 st.markdown(option3_header, unsafe_allow_html=True)
 
-type = st.radio("Pick one", ['Color', 'No Color'])
-if type == 'Color':
+tab1, tab2 = st.tabs(["Color", "No Color])
+with tab1:
         plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
         if plotType_color == 'Line':
             fig = px.line(df_file, x=df_file[cols2], y=df_file[cols])
@@ -83,7 +83,7 @@ if type == 'Color':
             fig = px.bar(df_file, x=df_file[cols2], y=df_file[cols], color=df_file[cols2])
             st.plotly_chart(fig, use_container_width=True)
             
-if type == 'No Color':
+with tab2:
         plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
         if plotType_color == 'Line':
             fig = px.line(df_file, x=df_file[cols2], y=df_file[cols])

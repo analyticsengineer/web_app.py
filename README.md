@@ -10,9 +10,7 @@
 
 #### The purpose of this web app is to make data visualization easy for data analysis.
 
-#### The graph consists og line, pie and bar charts.
-
-#### With this web app you can do the following
+#### The graph consists of line, pie and bar charts.
 ---
 ### Animation Files
 - [Ouch!](https://icons8.com/illustrations/)

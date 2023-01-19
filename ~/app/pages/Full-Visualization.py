@@ -76,22 +76,22 @@ if type == 'Color':
         plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
         if plotType_color == 'Line':
             fig = px.line(df_file, x=df_file[cols6], y=df_file[cols5])
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True,theme="streamlit",  # ✨New Features!)
         if plotType_color == 'Pie':
             fig = px.pie(names=df_file[cols6], values=df_file[cols5])
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True,theme="streamlit",  # ✨New Features!)
         if plotType_color == 'Bar':
             fig = px.bar(df_file, x=df_file[cols6], y=df_file[cols5], color=df_file[cols6])
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True,theme="streamlit",  # ✨New Features!)
             
 if type == 'No Color':
         plotType_nocolor = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
         if plotType_nocolor == 'Line':
             fig = px.line(df_file, x=df_file[cols6], y=df_file[cols5])
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True,theme="streamlit",  # ✨New Features!)
         if plotType_nocolor == 'Pie':
             fig = px.pie(names=df_file[cols6], values=df_file[cols5])
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True,theme="streamlit",  # ✨New Features!)
         if plotType_nocolor == 'Bar':
             fig = px.bar(df_file, x=df_file[cols6], y=df_file[cols5])
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True,theme="streamlit",  # ✨New Features!)

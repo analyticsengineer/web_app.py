@@ -60,7 +60,7 @@ except:
   pass
 
 try:
-  cols3 = st.selectbox('SELECT VALUE:',
+  cols3 = st.multiselect('SELECT VALUE:',
                        options=df_file.select_dtypes(include=['int', 'float', 'datetime'], exclude='object').columns)
   cols4 = st.selectbox('SELECT LABEL:',
                         options=df_file.select_dtypes(include='object', exclude=['int', 'float']).columns)

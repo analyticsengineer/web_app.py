@@ -60,7 +60,7 @@ except:
   pass
 
 try:
-  cols3 = st.multiselect('SELECT VALUE:',
+  cols3 = st.selectbox('SELECT VALUE:',
                        options=df_file.select_dtypes(include=['int', 'float', 'datetime'], exclude='object').columns)
   cols4 = st.selectbox('SELECT LABEL:',
                         options=df_file.select_dtypes(include='object', exclude=['int', 'float']).columns)
@@ -76,22 +76,22 @@ if type == 'Color':
         plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
         if plotType_color == 'Line':
             fig = px.line(df_file, x=df_file[cols4], y=df_file[cols3])
-            st.plotly_chart(fig, use_container_width=True,theme="streamlit"  # ✨New Features!)
+            st.plotly_chart(fig, use_container_width=True)
         if plotType_color == 'Pie':
             fig = px.pie(names=df_file[cols4], values=df_file[cols3])
-            st.plotly_chart(fig, use_container_width=True,theme="streamlit"  # ✨New Features!)
+            st.plotly_chart(fig, use_container_width=True)
         if plotType_color == 'Bar':
             fig = px.bar(df_file, x=df_file[cols4], y=df_file[cols3], color=df_file[cols4])
-            st.plotly_chart(fig, use_container_width=True,theme="streamlit"  # ✨New Features!)
+            st.plotly_chart(fig, use_container_width=True)
             
 if type == 'No Color':
         plotType_nocolor = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
         if plotType_nocolor == 'Line':
             fig = px.line(df_file, x=df_file[cols4], y=df_file[cols3])
-            st.plotly_chart(fig, use_container_width=True,theme="streamlit"  # ✨New Features!)
+            st.plotly_chart(fig, use_container_width=True)
         if plotType_nocolor == 'Pie':
             fig = px.pie(names=df_file[cols4], values=df_file[cols3])
-            st.plotly_chart(fig, use_container_width=True,theme="streamlit"  # ✨New Features!)
+            st.plotly_chart(fig, use_container_width=True)
         if plotType_nocolor == 'Bar':
             fig = px.bar(df_file, x=df_file[cols4], y=df_file[cols3])
-            st.plotly_chart(fig, use_container_width=True,theme="streamlit"  # ✨New Features!)
+            st.plotly_chart(fig, use_container_width=True)

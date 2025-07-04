@@ -12,86 +12,86 @@ import plotly.express as px
 import numpy as np
 
 
-# setting image
-image = Image.open('image2.png')
-
-# setting header
+# App Header
 col1, col2 = st.columns(2)
-
-col1.header("Simple Data Analysis Web App")
-title_1 =  '<p style="font-family:sans-serif; color:Grey;">Visualize the BOTTOM TEN Insights fom your dataset</p>'
-col1.markdown(title_1, unsafe_allow_html=True)
-col2.image(image)
-
-# Setting menu visibility
-st.markdown(""" <style>
-#Mainmenu {visibility: hidden;}
-footer {visibility: hidden;}
-</style>""", unsafe_allow_html=True)
-
-# uploading file 
-df_file = st.file_uploader("Upload your file: ", type=['csv', 'xlsx', 'pickle'])
-
-# Open Csv File
 try:
-  df_file = pd.read_csv(df_file)
-  st.markdown("Your Data Record: ")
-  st.dataframe(df_file)
-        
+    image = Image.open("image2.png")
+    col2.image(image)
 except:
-  csv = '<p style="font-family: Quicksand_medium; color:#c28080; font-size: 20px;">Please Load A CSV, EXCEL Or ' \
-           'PICKLE File To Begin</p>'
-  st.markdown(csv, unsafe_allow_html=True)
+    col2.warning("Image not found.")
 
-# Open Excel File
-try:
-  df_file = pd.read_excel(df_file, engine='openpyxl')
-  st.markdown("Your Data Record: ")
-  st.dataframe(df_file)     
-except:
-  pass
+col1.header("📊 Simple Data Analysis Web App")
+col1.markdown(
+    '<p style="font-family:sans-serif; color:Grey;">Visualize the BOTTOM TEN insights from your dataset</p>',
+    unsafe_allow_html=True
+)
 
-# Read Pickle File
-try:
-  df_file = pd.read_pickle(df_file)
-  st.markdown("Your Data Record: ")
-  AgGrid(df_file, editable=True)
-except:
-  pass
+# Hide Streamlit footer and menu
+st.markdown("""
+    <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
 
-try:
-  cols3 = st.selectbox('SELECT VALUE:',
-                       options=df_file.select_dtypes(include=['int', 'float', 'datetime'], exclude='object').columns)
-  cols4 = st.selectbox('SELECT LABEL:',
-                        options=df_file.select_dtypes(include='object', exclude=['int', 'float']).columns)
-  df_file = df_file.groupby(df_file[cols4])[cols3].sum().nsmallest(n=10).reset_index()
-except:
-  pass
+# Upload file
+uploaded_file = st.file_uploader("Upload your file", type=['csv', 'xlsx', 'pickle'])
 
-option3_header = '<p style="font-family: Quicksand_medium; color:#ffffff; font-size: 20px;">Choose Your Graph</p>'
-st.markdown(option3_header, unsafe_allow_html=True)
+df_file = None
+if uploaded_file:
+    try:
+        if uploaded_file.name.endswith('.csv'):
+            df_file = pd.read_csv(uploaded_file)
+        elif uploaded_file.name.endswith('.xlsx'):
+            df_file = pd.read_excel(uploaded_file, engine='openpyxl')
+        elif uploaded_file.name.endswith('.pickle'):
+            df_file = pd.read_pickle(uploaded_file)
 
-type = st.radio("Pick one", ['Color', 'No Color'])
-if type == 'Color':
-        plotType_color = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
-        if plotType_color == 'Line':
-            fig = px.line(df_file, x=df_file[cols4], y=df_file[cols3])
-            st.plotly_chart(fig, theme="streamlit",  use_container_width=True)
-        if plotType_color == 'Pie':
-            fig = px.pie(names=df_file[cols4], values=df_file[cols3])
-            st.plotly_chart(fig, theme="streamlit",  use_container_width=True)
-        if plotType_color == 'Bar':
-            fig = px.bar(df_file, x=df_file[cols4], y=df_file[cols3], color=df_file[cols4])
-            st.plotly_chart(fig,theme="streamlit",  use_container_width=True)
-            
-if type == 'No Color':
-        plotType_nocolor = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
-        if plotType_nocolor == 'Line':
-            fig = px.line(df_file, x=df_file[cols4], y=df_file[cols3])
-            st.plotly_chart(fig, theme="streamlit",  use_container_width=True)
-        if plotType_nocolor == 'Pie':
-            fig = px.pie(names=df_file[cols4], values=df_file[cols3])
-            st.plotly_chart(fig, theme="streamlit",  use_container_width=True)
-        if plotType_nocolor == 'Bar':
-            fig = px.bar(df_file, x=df_file[cols4], y=df_file[cols3])
-            st.plotly_chart(fig,theme="streamlit", use_container_width=True)
+        if df_file is not None:
+            st.markdown("### Your Data Record:")
+            st.dataframe(df_file)
+        else:
+            st.error("Unsupported file format.")
+    except Exception as e:
+        st.error(f"Error reading file: {e}")
+else:
+    st.info("Please upload a CSV, Excel, or Pickle file to continue.")
+
+# Visualization logic
+if df_file is not None:
+    try:
+        numeric_cols = df_file.select_dtypes(include=['int', 'float']).columns.tolist()
+        category_cols = df_file.select_dtypes(include='object').columns.tolist()
+
+        if numeric_cols and category_cols:
+            cols3 = st.selectbox('Select Value Column (Numeric):', options=numeric_cols)
+            cols4 = st.selectbox('Select Label Column (Category):', options=category_cols)
+
+            df_vis = df_file.groupby(cols4)[cols3].sum().nsmallest(10).reset_index()
+
+            st.markdown('<p style="font-family: Quicksand_medium; color:#ffffff; font-size: 20px;">Choose Your Graph</p>',
+                        unsafe_allow_html=True)
+
+            color_choice = st.radio("Pick one", ['Color', 'No Color'])
+
+            if color_choice == 'Color':
+                plot_type = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
+                if plot_type == 'Line':
+                    st.plotly_chart(px.line(df_vis, x=cols4, y=cols3), use_container_width=True)
+                elif plot_type == 'Bar':
+                    st.plotly_chart(px.bar(df_vis, x=cols4, y=cols3, color=cols4), use_container_width=True)
+                elif plot_type == 'Pie':
+                    st.plotly_chart(px.pie(df_vis, names=cols4, values=cols3), use_container_width=True)
+
+            elif color_choice == 'No Color':
+                plot_type = st.selectbox("Plot Type:", ['Choose', 'Line', 'Bar', 'Pie'])
+                if plot_type == 'Line':
+                    st.plotly_chart(px.line(df_vis, x=cols4, y=cols3), use_container_width=True)
+                elif plot_type == 'Bar':
+                    st.plotly_chart(px.bar(df_vis, x=cols4, y=cols3), use_container_width=True)
+                elif plot_type == 'Pie':
+                    st.plotly_chart(px.pie(df_vis, names=cols4, values=cols3), use_container_width=True)
+        else:
+            st.warning("Your dataset must contain both numeric and categorical columns.")
+    except Exception as e:
+        st.error(f"Error generating plot: {e}")

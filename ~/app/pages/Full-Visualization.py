@@ -5,11 +5,11 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 from openpyxl import load_workbook
+import requests
 from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 import plotly.express as px
 import numpy as np
-from st_aggrid import AgGrid  # Fix: Missing import
 
 # Load image
 try:

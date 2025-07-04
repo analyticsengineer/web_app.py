@@ -10,7 +10,6 @@ from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 import plotly.express as px
 import numpy as np
-from st_aggrid import AgGrid  # Ensure this is installed
 
 # Load Image
 try:

@@ -1,10 +1,15 @@
+# Import necessary libraries
+import time
 from PIL import Image
 import streamlit as st
 import pandas as pd
+from datetime import date
+from openpyxl import load_workbook
+import requests
 from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
-from openpyxl import load_workbook
-from st_aggrid import AgGrid  # FIXED: Missing import
+import plotly.express as px
+import numpy as np
 
 # Set image
 try:

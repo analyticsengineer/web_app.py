@@ -1,4 +1,4 @@
-# Import necessary libraries
+# Necessary Libraries
 import time
 from PIL import Image
 import streamlit as st
